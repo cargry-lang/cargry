@@ -12,6 +12,7 @@ members = [
 [workspace.dependencies]
 actoa = { path = "crates/actoa" }
 lewekk = { path = "crates/lewekk" }
+lewekk-head = { path = "crates/lewekk-head" }
 lewekk-macro = { path = "crates/lewekk-macro" }
 lewekk-utils = { path = "crates/lewekk-utils" }
 popdack = { path = "crates/popdack" }

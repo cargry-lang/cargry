@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-use lewekk::lex::LexRule;
+use lewekk_head::LexRule;
 
 pub trait ParserVariant<T> {
     fn variant(input: &Box<dyn LexRule>) -> T;

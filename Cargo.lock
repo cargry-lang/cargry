@@ -50,10 +50,15 @@ name = "lewekk"
 version = "0.1.0"
 dependencies = [
  "actoa",
+ "lewekk-head",
  "lewekk-macro",
  "lewekk-utils",
  "regex",
 ]
+
+[[package]]
+name = "lewekk-head"
+version = "0.1.0"
 
 [[package]]
 name = "lewekk-macro"
@@ -72,6 +77,9 @@ name = "lexer"
 version = "0.1.0"
 dependencies = [
  "lewekk",
+ "lewekk-head",
+ "lewekk-macro",
+ "lewekk-utils",
 ]
 
 [[package]]
@@ -98,6 +106,7 @@ name = "popdack"
 version = "0.1.0"
 dependencies = [
  "lewekk",
+ "lewekk-head",
  "popdack-macro",
 ]
 

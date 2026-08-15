@@ -6,8 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-use lewekk::lex::*;
-use lewekk::utils::*;
+use lewekk_head::*;
+use lewekk_macro::*;
+use lewekk_utils::*;
 
 #[lexer]
 pub struct EndLine;

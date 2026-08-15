@@ -6,5 +6,6 @@ edition = "2024"
 [dependencies]
 regex = { workspace = true }
 actoa = { workspace = true }
+lewekk-head = { workspace = true }
 lewekk-macro = { workspace = true }
 lewekk-utils = { workspace = true }

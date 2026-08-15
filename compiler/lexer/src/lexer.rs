@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-use lewekk::lex::*;
+use lewekk::*;
+use lewekk_head::{LexRule, LexerManager};
 
 use crate::lexer_node::*;
 

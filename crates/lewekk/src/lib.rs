@@ -8,11 +8,4 @@
 
 mod lexer;
 
-pub mod lex {
-    pub use crate::lexer::*;
-    pub use lewekk_macro::*;
-}
-
-pub mod utils {
-    pub use lewekk_utils::*;
-}
+pub use crate::lexer::*;

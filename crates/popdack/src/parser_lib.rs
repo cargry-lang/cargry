@@ -8,7 +8,7 @@
 
 use std::marker::PhantomData;
 
-use lewekk::lex::Lexer;
+use lewekk::Lexer;
 
 use crate::utils::{ParserMappinger, ParserVariant};
 
