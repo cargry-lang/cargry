@@ -6,10 +6,16 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-use lewekk::*;
+use lewekk::Lexer;
 use lewekk_head::{LexRule, LexerManager};
 
-use crate::lexer_node::*;
+use crate::endline_token::EndLine;
+use crate::ident_token::Ident;
+use crate::module_token::{Mod, Use};
+use crate::number_token::Number;
+use crate::paren_token::{LParen, RParen};
+use crate::scope_token::{LScope, RScope};
+use crate::variable_token::Let;
 
 pub struct CargryLexer {
     lexer: Lexer,
@@ -18,8 +24,10 @@ pub struct CargryLexer {
 impl LexerManager for CargryLexer {
     fn new() -> Self {
         let mut lex = Lexer::new(EndLine);
-        lex.add_rule(Scope);
-        lex.add_rule(Paren);
+        lex.add_rule(LScope);
+        lex.add_rule(RScope);
+        lex.add_rule(LParen);
+        lex.add_rule(RParen);
         lex.add_rule(Use);
         lex.add_rule(Mod);
         lex.add_rule(Let);
