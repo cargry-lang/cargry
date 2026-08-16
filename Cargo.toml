@@ -19,6 +19,7 @@ popdack = { path = "crates/popdack" }
 popdack-macro = { path = "crates/popdack-macro" }
 cargry-errors = { path = "compiler/cargry-errors" }
 lexer = { path = "compiler/lexer" }
+parser = { path = "compiler/parser" }
 
 colored = "3.1.1"
 regex = "1.12.4"
@@ -38,7 +39,6 @@ lewekk-macro = { path = "crates/lewekk-macro" }
 lewekk-utils = { path = "crates/lewekk-utils" }
 cargry-errors = { workspace = true }
 lexer = { workspace = true }
-regex = { workspace = true }
+parser = { workspace = true }
 
-nom = "8.0.0"
-target-lexicon = "0.13.5"
+regex = { workspace = true }

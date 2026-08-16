@@ -26,10 +26,9 @@ dependencies = [
  "lewekk-macro",
  "lewekk-utils",
  "lexer",
- "nom",
+ "parser",
  "popdack",
  "regex",
- "target-lexicon",
 ]
 
 [[package]]
@@ -92,17 +91,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6b947ae49db0d222b1dbc6b113ce7248a3fc3a6ca21b696717bfc000ba4484d8"
 
 [[package]]
-name = "nom"
-version = "8.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "df9761775871bdef83bee530e60050f7e54b1105350d6884eb0fb4f46c2f9405"
-dependencies = [
- "memchr",
-]
-
-[[package]]
 name = "parser"
 version = "0.1.0"
+dependencies = [
+ "popdack",
+ "popdack-macro",
+]
 
 [[package]]
 name = "popdack"
@@ -110,7 +104,6 @@ version = "0.1.0"
 dependencies = [
  "lewekk",
  "lewekk-head",
- "popdack-macro",
 ]
 
 [[package]]
@@ -190,12 +183,6 @@ dependencies = [
  "quote",
  "unicode-ident",
 ]
-
-[[package]]
-name = "target-lexicon"
-version = "0.13.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "adb6935a6f5c20170eeceb1a3835a49e12e19d792f6dd344ccc76a985ca5a6ca"
 
 [[package]]
 name = "unicode-ident"

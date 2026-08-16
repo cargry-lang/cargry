@@ -15,5 +15,4 @@ pub mod utils {
 
 pub mod parser {
     pub use crate::parser_lib::*;
-    pub use popdack_macro::mappinger;
 }
