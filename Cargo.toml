@@ -32,6 +32,7 @@ cranelift-object = "0.132.1"
 
 [dependencies]
 actoa = { workspace = true }
+actoa-hm = { workspace = true }
 popdack = { workspace = true }
 lewekk = { workspace = true }
 lewekk-head = { path = "crates/lewekk-head" }

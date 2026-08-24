@@ -3,12 +3,12 @@ use std::fmt;
 use mod(object)::*;
 
 fun main() {
-    let mut a = Object::from(1);
-    let b = (&a).add(2);
-    let i = 3;
-    let c = (&a).add!(i);
-    // error: let d = a.add(4);
+    let a = Object::from(1)
+    in let b = a.add(2)
+    in let i = 3
+    in let c = a.add!(i)
+    // error: in let d = a.add(4)
 
-    fmt::println("i = {}", i);
-    fmt::println("b = {}, c = {}", &b, &c)
+    in fmt::println("i = {}", i);
+    fmt::println("b = {}, c = {}", b, c)
 }
