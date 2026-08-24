@@ -9,6 +9,6 @@ fun main() {
     in let c = a.add!(i)
     // error: in let d = a.add(4)
 
-    in fmt::println("i = {}", i);
-    fmt::println("b = {}, c = {}", b, c)
+    in fmt::println!("i = {}", i);
+    fmt::println!("b = {}, c = {}", b, c)
 }

@@ -6,7 +6,4 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-fn main() {
-
-    // lexer -> parser -> CrIR -> (LLVM IR, Cranelift IR, WAT) -> (Binary, WASM)
-}
+fn main() {}
