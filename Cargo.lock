@@ -7,10 +7,6 @@ name = "actoa"
 version = "0.1.0"
 
 [[package]]
-name = "actoa-hm"
-version = "0.1.0"
-
-[[package]]
 name = "aho-corasick"
 version = "1.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -24,7 +20,6 @@ name = "cargry"
 version = "0.1.0"
 dependencies = [
  "actoa",
- "actoa-hm",
  "cargry-errors",
  "lewekk",
  "lewekk-head",
