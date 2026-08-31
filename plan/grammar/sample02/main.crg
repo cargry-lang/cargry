@@ -1,0 +1,15 @@
+use std::{fmt, NumWrite};
+use std::vector::{Vec, vec, VecWrite};
+
+fun main() ! fmt::IO? + NumWrite? + VecWrite? {
+    let input = fmt::readln!().parse<u32>().unwrap_or(drop 0u32);
+    let v = vec();
+    for i in 1..=input {
+        v.push!(drop i);
+    }
+    let result = 0u32;
+    for item in v.iter() {
+        result += item;
+    }
+    fmt::println!("{}", &result)    (* result = input * (input + 1) / 2 *)
+}

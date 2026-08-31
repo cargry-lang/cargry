@@ -1,0 +1,42 @@
+use std::fmt;
+
+struct A<F>
+where
+    F: fun() -> () ! default,
+{
+    pub &drop f: F,
+}
+impl<F> A<F>
+where
+    F: fun() -> () ! default,
+{
+    pub fun new(&drop f: F) init {
+        f,
+    }
+}
+
+struct B<F>
+where
+    F: fun() -> (),
+{
+    pub &drop f: F,
+}
+impl<F> B<F>
+where
+    F: fun() -> (),
+{
+    pub fun new(&drop f: F) init {
+        f,
+    }
+}
+
+fun main() {
+    let a = A::new(drop || -> () ! fmt::IO? {
+        fmt::println!("hello.")
+    });
+    let b = B::new(drop || -> () (* error: ! fmt::IO? *) {
+        (* error: fmt::println!("good bye.") *)
+    });
+    a.f();
+    b.f();
+}
