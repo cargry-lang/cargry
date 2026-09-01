@@ -9,8 +9,11 @@
 use std::clone::Clone;
 
 use proc_macro::TokenStream;
-use quote::quote;
-use syn::{DeriveInput, LitBool, parse_macro_input};
+use quote::{ToTokens, quote};
+use syn::{
+    DeriveInput, Error, Ident, Item, LitBool, Token, parse::Parse, parse_macro_input,
+    punctuated::Punctuated, token::Token,
+};
 
 #[proc_macro_attribute]
 pub fn lexer(attr: TokenStream, input: TokenStream) -> TokenStream {
@@ -20,33 +23,21 @@ pub fn lexer(attr: TokenStream, input: TokenStream) -> TokenStream {
     let name = cloned_input.ident;
     let name_str = name.to_string();
 
-    let mut is_ignore = false;
-
-    let attr_parser = syn::meta::parser(|meta| {
-        if meta.path.is_ident("is_ignore") {
-            let value: LitBool = meta.value()?.parse()?;
-            is_ignore = value.value();
-            Ok(())
-        } else {
-            Err(meta.error("unsupported property"))
-        }
-    });
-
-    parse_macro_input!(attr with attr_parser);
+    let tokens = parse_macro_input!(attr with Ident::parse);
 
     let lex_clone_impl = quote! {
         #[derive(Clone)]
         #input
 
-        impl LexClone for #name {
-            fn clone_box(&self) -> Box<dyn LexRule> {
-                Box::new(Clone::clone(self))
+        impl LexMapping<#tokens> for #name {
+            fn ltoken(&self) -> #tokens {
+                #tokens::#name
             }
         }
 
-        impl LexIgnore for #name {
-            fn is_ignore(&self) -> bool {
-                #is_ignore
+        impl LexClone<#tokens> for #name {
+            fn clone_box(&self) -> Box<dyn LexRule<#tokens>> {
+                Box::new(Clone::clone(self))
             }
         }
 
@@ -58,4 +49,42 @@ pub fn lexer(attr: TokenStream, input: TokenStream) -> TokenStream {
     };
 
     TokenStream::from(lex_clone_impl)
+}
+
+#[proc_macro_attribute]
+pub fn lexer_tokens(attr: TokenStream, input: TokenStream) -> TokenStream {
+    let input = parse_macro_input!(input as Item);
+
+    let input_enum = match input {
+        Item::Enum(item_enum) => item_enum,
+        _ => {
+            return Error::new_spanned(input, "This attribute macro can apply only enum.")
+                .to_compile_error()
+                .into();
+        }
+    };
+
+    let cloned_input = input_enum.clone();
+    let vis = cloned_input.vis;
+    let name = cloned_input.ident;
+
+    let args = parse_macro_input!(attr with Punctuated::<Ident, Token![,]>::parse_terminated);
+    let yield_args = args.iter().map(|ident| quote! {#ident,});
+    let impl_args = args.iter().map(|ident| {
+        quote! {
+            impl LexMapping<#name> for #ident {
+                fn ltoken(&self) -> #name {
+                    #name::#ident
+                }
+            }
+        }
+    });
+
+    let lex_tokens_impl = quote! {
+        #vis enum #name {
+            #(#yield_args)*
+        }
+    };
+
+    TokenStream::from(lex_tokens_impl)
 }

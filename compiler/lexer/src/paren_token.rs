@@ -6,36 +6,28 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+use std::result;
+
 use lewekk_head::*;
 use lewekk_macro::*;
 use lewekk_utils::*;
 
-#[lexer]
+use crate::lexer::CargryTokens;
+
+#[lexer(CargryTokens)]
 pub struct LParen;
-impl LexRule for LParen {
-    fn lparse(&mut self, input: &mut String) -> LexResult {
+impl LexRule<CargryTokens> for LParen {
+    fn lparse(&self, input: &String) -> Result<(String, Vec<String>), String> {
         let f = lstring("(", lign());
-        match f(input.as_str()) {
-            Ok((rest, vec)) => {
-                *input = rest;
-                LexResult::Some(vec[0].clone())
-            }
-            _ => LexResult::None,
-        }
+        f(input.as_str())
     }
 }
 
-#[lexer]
+#[lexer(CargryTokens)]
 pub struct RParen;
-impl LexRule for RParen {
-    fn lparse(&mut self, input: &mut String) -> LexResult {
+impl LexRule<CargryTokens> for RParen {
+    fn lparse(&self, input: &String) -> Result<(String, Vec<String>), String> {
         let f = lstring(")", lign());
-        match f(input.as_str()) {
-            Ok((rest, vec)) => {
-                *input = rest;
-                LexResult::Some(vec[0].clone())
-            }
-            _ => LexResult::None,
-        }
+        f(input.as_str())
     }
 }

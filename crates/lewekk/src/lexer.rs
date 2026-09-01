@@ -6,83 +6,71 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-use lewekk_head::{LexResult, LexRule};
+use lewekk_head::LexRule;
 
-pub struct Lexer {
-    rules: Vec<Box<dyn LexRule>>,
-    ign_rule: Box<dyn LexRule>,
+pub struct Lexer<T> {
+    rules: Vec<Box<dyn LexRule<T>>>,
+    ign_rule: Option<Box<dyn LexRule<T>>>,
     tokens: Vec<String>,
-    rule_pos: Vec<(Box<dyn LexRule>, usize)>,
+    rule_pos: Vec<(T, usize)>,
 }
 
-impl Lexer {
-    pub fn new(rule: impl LexRule + Clone + 'static) -> Self {
+impl<T> Lexer<T> {
+    pub fn new(rule: Option<impl LexRule<T> + Clone + 'static>) -> Self {
         Self {
             rules: vec![],
-            ign_rule: Box::new(rule),
+            ign_rule: if let Some(rule) = rule {
+                Some(Box::new(rule))
+            } else {
+                None
+            },
             tokens: vec![],
             rule_pos: vec![],
         }
     }
 
-    pub fn add_rule(&mut self, rule: impl LexRule + Clone + 'static) {
+    pub fn add_rule(&mut self, rule: impl LexRule<T> + Clone + 'static) {
         self.rules.push(Box::new(rule));
     }
 
-    fn excute(&mut self, input: &mut String) -> (LexResult, bool) {
+    fn excute(&mut self, input: &String) -> Result<(String, Vec<String>), String> {
         let index = self.tokens.len();
         for rule in self.rules.iter_mut() {
             let lparsed = rule.lparse(input);
-            match lparsed {
-                LexResult::Some(_) => {
-                    if rule.is_ignore() {
-                        return (LexResult::None, true);
-                    } else {
-                        self.rule_pos.push((rule.clone(), index));
-                    }
-                    return (lparsed, rule.is_ignore());
-                }
-                LexResult::Array(_) => {
-                    if rule.is_ignore() {
-                        return (LexResult::None, true);
-                    } else {
-                        self.rule_pos.push((rule.clone(), index));
-                    }
-                    return (lparsed, rule.is_ignore());
-                }
-                LexResult::None => (),
+            if let Ok((rest, vec)) = lparsed {
+                self.rule_pos.push((rule.ltoken(), index));
+                return Ok((rest, vec));
             }
         }
-        (LexResult::None, false)
+        Err(String::from(""))
     }
 
-    pub fn run(&mut self, input: &str) {
+    pub fn run(&mut self, input: &str) -> Result<(), String> {
         let mut input = input.to_string();
-        self.ign_rule.lparse(&mut input);
-        while !input.is_empty() {
-            let (res, is_ignore) = self.excute(&mut input);
-            match res {
-                LexResult::Some(w) => self.tokens.push(w),
-                LexResult::Array(vec) => {
-                    for item in vec.iter() {
-                        self.tokens.push(item.clone());
-                    }
-                }
-                LexResult::None => {
-                    if !is_ignore {
-                        input = input[1..].to_string();
-                    }
-                }
-            }
-            self.ign_rule.lparse(&mut input);
+        let exist_ign_rule = self.ign_rule.is_some();
+        if exist_ign_rule {
+            let (rest, _) = self.ign_rule.as_ref().unwrap().lparse(&input)?;
+            input = rest;
         }
+        while !input.is_empty() {
+            let (rest, vec) = self.excute(&input)?;
+            for item in vec.into_iter() {
+                self.tokens.push(item);
+            }
+            input = rest;
+            if exist_ign_rule {
+                let (rest, _) = self.ign_rule.as_ref().unwrap().lparse(&input)?;
+                input = rest;
+            }
+        }
+        Ok(())
     }
 
     pub fn get_tokens(&self) -> &Vec<String> {
         &self.tokens
     }
 
-    pub fn get_rules(&self) -> &Vec<(Box<dyn LexRule>, usize)> {
+    pub fn get_rules(&self) -> &Vec<(T, usize)> {
         &self.rule_pos
     }
 }
