@@ -7,7 +7,8 @@
  */
 
 use lewekk::Lexer;
-use lewekk_head::{LexRule, LexerManager};
+use lewekk_head::{LexMapping, LexRule, LexerManager};
+use lewekk_macro::lexer_tokens;
 
 use crate::endline_token::EndLine;
 use crate::ident_token::Ident;
@@ -17,13 +18,16 @@ use crate::paren_token::{LParen, RParen};
 use crate::scope_token::{LScope, RScope};
 use crate::variable_token::Let;
 
+#[lexer_tokens(EndLine, Ident, Mod, Use, Number, LParen, RParen, LScope, RScope, Let)]
+pub enum CargryTokens {}
+
 pub struct CargryLexer {
-    lexer: Lexer,
+    lexer: Lexer<CargryTokens>,
 }
 
-impl LexerManager for CargryLexer {
+impl LexerManager<CargryTokens> for CargryLexer {
     fn new() -> Self {
-        let mut lex = Lexer::new(EndLine);
+        let mut lex = Lexer::new(Some(EndLine));
         lex.add_rule(LScope);
         lex.add_rule(RScope);
         lex.add_rule(LParen);
@@ -44,7 +48,7 @@ impl LexerManager for CargryLexer {
         self.lexer.get_tokens()
     }
 
-    fn get_rules(&self) -> &Vec<(Box<dyn LexRule>, usize)> {
+    fn get_rules(&self) -> &Vec<(CargryTokens, usize)> {
         self.lexer.get_rules()
     }
 }

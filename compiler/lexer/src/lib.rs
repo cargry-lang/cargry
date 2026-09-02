@@ -6,22 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-mod lexer;
+pub mod lexer;
 
-mod endline_token;
-mod ident_token;
-mod module_token;
-mod number_token;
-mod paren_token;
-mod scope_token;
-mod variable_token;
-
-pub use lexer::CargryLexer;
-
-pub use endline_token::EndLine;
-pub use ident_token::Ident;
-pub use module_token::{Mod, Use};
-pub use number_token::Number;
-pub use paren_token::{LParen, RParen};
-pub use scope_token::{LScope, RScope};
-pub use variable_token::Let;
+pub mod endline_token;
+pub mod ident_token;
+pub mod module_token;
+pub mod number_token;
+pub mod paren_token;
+pub mod scope_token;
+pub mod variable_token;

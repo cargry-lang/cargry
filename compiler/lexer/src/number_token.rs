@@ -10,10 +10,12 @@ use lewekk_head::*;
 use lewekk_macro::*;
 use lewekk_utils::*;
 
-#[lexer]
+use crate::lexer::CargryTokens;
+
+#[lexer(CargryTokens)]
 pub struct Number;
-impl LexRule for Number {
-    fn lparse(&mut self, input: &mut String) -> LexResult {
+impl LexRule<CargryTokens> for Number {
+    fn lparse(&self, input: &String) -> Result<(String, Vec<String>), String> {
         let f = lreduce(
             |s1, s2| s1 + s2,
             lfmany1(lpredicate(
@@ -30,12 +32,6 @@ impl LexRule for Number {
                 ),
             )),
         );
-        match f(input.as_str()) {
-            Ok((rest, vec)) => {
-                *input = rest;
-                LexResult::Some(vec[0].clone())
-            }
-            _ => LexResult::None,
-        }
+        f(input.as_str())
     }
 }

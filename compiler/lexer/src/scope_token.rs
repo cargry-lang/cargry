@@ -10,32 +10,22 @@ use lewekk_head::*;
 use lewekk_macro::*;
 use lewekk_utils::*;
 
-#[lexer]
+use crate::lexer::CargryTokens;
+
+#[lexer(CargryTokens)]
 pub struct LScope;
-impl LexRule for LScope {
-    fn lparse(&mut self, input: &mut String) -> LexResult {
+impl LexRule<CargryTokens> for LScope {
+    fn lparse(&self, input: &String) -> Result<(String, Vec<String>), String> {
         let f = lstring("{", lign());
-        match f(input.as_str()) {
-            Ok((rest, vec)) => {
-                *input = rest;
-                LexResult::Some(vec[0].clone())
-            }
-            _ => LexResult::None,
-        }
+        f(input.as_str())
     }
 }
 
-#[lexer]
+#[lexer(CargryTokens)]
 pub struct RScope;
-impl LexRule for RScope {
-    fn lparse(&mut self, input: &mut String) -> LexResult {
+impl LexRule<CargryTokens> for RScope {
+    fn lparse(&self, input: &String) -> Result<(String, Vec<String>), String> {
         let f = lstring("}", lign());
-        match f(input.as_str()) {
-            Ok((rest, vec)) => {
-                *input = rest;
-                LexResult::Some(vec[0].clone())
-            }
-            _ => LexResult::None,
-        }
+        f(input.as_str())
     }
 }

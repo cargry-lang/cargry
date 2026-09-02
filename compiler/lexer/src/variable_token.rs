@@ -10,17 +10,13 @@ use lewekk_head::*;
 use lewekk_macro::*;
 use lewekk_utils::*;
 
-#[lexer]
+use crate::lexer::CargryTokens;
+
+#[lexer(CargryTokens)]
 pub struct Let;
-impl LexRule for Let {
-    fn lparse(&mut self, input: &mut String) -> LexResult {
+impl LexRule<CargryTokens> for Let {
+    fn lparse(&self, input: &String) -> Result<(String, Vec<String>), String> {
         let f = lstring("let", lign());
-        match f(input.as_str()) {
-            Ok((rest, vec)) => {
-                *input = rest;
-                LexResult::Some(vec[0].clone())
-            }
-            _ => LexResult::None,
-        }
+        f(input.as_str())
     }
 }

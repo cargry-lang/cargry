@@ -10,10 +10,12 @@ use lewekk_head::*;
 use lewekk_macro::*;
 use lewekk_utils::*;
 
-#[lexer]
+use crate::lexer::CargryTokens;
+
+#[lexer(CargryTokens)]
 pub struct EndLine;
-impl LexRule for EndLine {
-    fn lparse(&mut self, input: &mut String) -> LexResult {
+impl LexRule<CargryTokens> for EndLine {
+    fn lparse(&self, input: &String) -> Result<(String, Vec<String>), String> {
         let white_space = lreduce(
             |s1, s2| s1 + s2,
             lfmany0(lor(
@@ -25,12 +27,6 @@ impl LexRule for EndLine {
             |vec| vec![vec[1].clone()],
             land(white_space.clone(), land(lstring(";", lign()), white_space)),
         );
-        match f(input.as_str()) {
-            Ok((rest, vec)) => {
-                *input = rest;
-                LexResult::Some(vec[0].clone())
-            }
-            _ => LexResult::None,
-        }
+        f(input.as_str())
     }
 }

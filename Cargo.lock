@@ -66,6 +66,7 @@ version = "0.1.0"
 name = "lewekk-macro"
 version = "0.1.0"
 dependencies = [
+ "proc-macro2",
  "quote",
  "syn 2.0.118",
 ]
