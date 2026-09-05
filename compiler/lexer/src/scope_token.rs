@@ -17,7 +17,7 @@ pub struct LScope;
 impl LexRule<CargryTokens> for LScope {
     fn lparse(&self, input: &String) -> Result<(String, Vec<String>), String> {
         let f = lstring("{", lign());
-        f(input.as_str())
+        f(input)
     }
 }
 
@@ -26,6 +26,6 @@ pub struct RScope;
 impl LexRule<CargryTokens> for RScope {
     fn lparse(&self, input: &String) -> Result<(String, Vec<String>), String> {
         let f = lstring("}", lign());
-        f(input.as_str())
+        f(input)
     }
 }

@@ -13,6 +13,21 @@ use lewekk_utils::*;
 use crate::lexer::CargryTokens;
 
 #[lexer(CargryTokens)]
+pub struct WhiteSpace;
+impl LexRule<CargryTokens> for WhiteSpace {
+    fn lparse(&self, input: &String) -> Result<(String, Vec<String>), String> {
+        let white_space = lreduce(
+            |s1, s2| s1 + s2,
+            lfmany0(lor(
+                lstring(" ", lign()),
+                lor(lstring("\n", lign()), lstring("\t", lign())),
+            )),
+        );
+        white_space(input)
+    }
+}
+
+#[lexer(CargryTokens)]
 pub struct EndLine;
 impl LexRule<CargryTokens> for EndLine {
     fn lparse(&self, input: &String) -> Result<(String, Vec<String>), String> {
@@ -23,10 +38,7 @@ impl LexRule<CargryTokens> for EndLine {
                 lor(lstring("\n", lign()), lstring("\t", lign())),
             )),
         );
-        let f = lconv(
-            |vec| vec![vec[1].clone()],
-            land(white_space.clone(), land(lstring(";", lign()), white_space)),
-        );
-        f(input.as_str())
+        let f = land(white_space.clone(), land(lstring(";", lign()), white_space));
+        f(input)
     }
 }

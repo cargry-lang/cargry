@@ -10,15 +10,17 @@ use lewekk::Lexer;
 use lewekk_head::{LexMapping, LexRule, LexerManager};
 use lewekk_macro::lexer_tokens;
 
-use crate::endline_token::EndLine;
+use crate::define_token::{Fun, Let, Struct};
+use crate::endline_token::{EndLine, WhiteSpace};
 use crate::ident_token::Ident;
 use crate::module_token::{Mod, Use};
 use crate::number_token::Number;
 use crate::paren_token::{LParen, RParen};
 use crate::scope_token::{LScope, RScope};
-use crate::variable_token::Let;
 
-#[lexer_tokens(EndLine, Ident, Mod, Use, Number, LParen, RParen, LScope, RScope, Let)]
+#[lexer_tokens(
+    WhiteSpace, EndLine, Ident, LScope, RScope, LParen, RParen, Number, Use, Mod, Struct, Fun, Let
+)]
 pub enum CargryTokens {}
 
 pub struct CargryLexer {
@@ -27,7 +29,8 @@ pub struct CargryLexer {
 
 impl LexerManager<CargryTokens> for CargryLexer {
     fn new() -> Self {
-        let mut lex = Lexer::new(Some(EndLine));
+        let mut lex = Lexer::new(Some(WhiteSpace));
+        lex.add_rule(EndLine);
         lex.add_rule(LScope);
         lex.add_rule(RScope);
         lex.add_rule(LParen);
@@ -40,8 +43,8 @@ impl LexerManager<CargryTokens> for CargryLexer {
         Self { lexer: lex }
     }
 
-    fn run(&mut self, input: &str) {
-        self.lexer.run(input);
+    fn run(&mut self, input: &str) -> Result<(), String> {
+        self.lexer.run(input)
     }
 
     fn get_tokens(&self) -> &Vec<String> {

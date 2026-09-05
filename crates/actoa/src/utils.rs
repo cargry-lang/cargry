@@ -13,16 +13,40 @@ use std::hash::Hash;
 ///
 /// example:
 /// ```
-/// #[derive(Eq, Hash)]
+/// #[derive(Clone, Eq, Hash)]
 /// enum RustRel {
-///     Move(usize),
-///     Borrow(usize),
-///     MutBorrow(usize),
+///     Move(usize, usize),
+///     Borrow(usize, usize),
+///     MutBorrow(usize, usize),
 /// }
-/// impl Relation for RustRel {}
+/// impl Relation for RustRel {
+///     fn mapping(&self, input: String) -> (String, String) {
+///         match self {
+///             Move(_, _) => (input.clone(), input),
+///             Borrow(_, _) => (input.clone(), "&" + input),
+///             MutBorrow(_, _) => (input.clone(), "&mut " + input),
+///         }
+///     }
+///     fn first(&self) -> usize {
+///         match self {
+///             Move(fst, _) => fst,
+///             Borrow(fst, _) => fst,
+///             MutBorrow(fst, _) => fst,
+///         }
+///     }
+///     fn second(&self) -> usize {
+///         match self {
+///             Move(_, snd) => snd,
+///             Borrow(_, snd) => snd,
+///             MutBorrow(_, snd) => snd,
+///         }
+///     }
+/// }
 /// ```
-pub trait Relation: Eq + Hash {
-    fn mapping(&self, input: String) -> String;
+pub trait Relation: Clone + Eq + Hash {
+    fn mapping(&self, input: String) -> (String, String);
+    fn first(&self) -> usize;
+    fn second(&self) -> usize;
 }
 
 /// implement this for enum.

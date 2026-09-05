@@ -8,10 +8,10 @@
 
 pub mod lexer;
 
+pub mod define_token;
 pub mod endline_token;
 pub mod ident_token;
 pub mod module_token;
 pub mod number_token;
 pub mod paren_token;
 pub mod scope_token;
-pub mod variable_token;

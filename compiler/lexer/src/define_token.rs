@@ -13,10 +13,28 @@ use lewekk_utils::*;
 use crate::lexer::CargryTokens;
 
 #[lexer(CargryTokens)]
+pub struct Struct;
+impl LexRule<CargryTokens> for Struct {
+    fn lparse(&self, input: &String) -> Result<(String, Vec<String>), String> {
+        let f = lstring("struct", lign());
+        f(input)
+    }
+}
+
+#[lexer(CargryTokens)]
+pub struct Fun;
+impl LexRule<CargryTokens> for Fun {
+    fn lparse(&self, input: &String) -> Result<(String, Vec<String>), String> {
+        let f = lstring("fun", lign());
+        f(input)
+    }
+}
+
+#[lexer(CargryTokens)]
 pub struct Let;
 impl LexRule<CargryTokens> for Let {
     fn lparse(&self, input: &String) -> Result<(String, Vec<String>), String> {
         let f = lstring("let", lign());
-        f(input.as_str())
+        f(input)
     }
 }

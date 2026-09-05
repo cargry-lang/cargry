@@ -14,7 +14,7 @@ pub struct Actoa<TE, Rel, F>
 where
     TE: TypeExpr,
     Rel: Relation,
-    F: Fn() -> (usize, Rel),
+    F: Fn() -> Rel,
 {
     dag: Vec<HashSet<Rel>>,
     list: Vec<TE>,
@@ -24,7 +24,7 @@ impl<TE, Rel, F> Actoa<TE, Rel, F>
 where
     TE: TypeExpr,
     Rel: Relation,
-    F: Fn() -> (usize, Rel),
+    F: Fn() -> Rel,
 {
     pub fn new() -> Self {
         Self {
@@ -45,12 +45,16 @@ where
 
     pub fn run(&mut self) -> Result<(), String> {
         for f in self.functions.iter() {
-            let (target, rel) = f();
-            if self.dag.len() <= target {
+            let rel = f();
+            let fst = rel.first();
+            let snd = rel.second();
+            if self.dag.len() <= fst || self.dag.len() <= snd {
                 return Err(String::from("index was out of range."));
             }
-            let set = &mut self.dag[target];
-            set.insert(rel);
+            let set_fst = &mut self.dag[fst];
+            set_fst.insert(rel.clone());
+            let set_snd = &mut self.dag[snd];
+            set_snd.insert(rel);
         }
         Ok(())
     }

@@ -13,7 +13,7 @@ pub struct ActoaSearch<TE, Rel, F1>
 where
     TE: TypeExpr,
     Rel: Relation,
-    F1: Fn() -> (usize, Rel),
+    F1: Fn() -> Rel,
 {
     actoa: Actoa<TE, Rel, F1>,
     type_list: Vec<String>,
@@ -22,7 +22,7 @@ impl<TE, Rel, F1> ActoaSearch<TE, Rel, F1>
 where
     TE: TypeExpr,
     Rel: Relation,
-    F1: Fn() -> (usize, Rel),
+    F1: Fn() -> Rel,
 {
     pub fn new(actoa: Actoa<TE, Rel, F1>) -> Self {
         let size = actoa.len();

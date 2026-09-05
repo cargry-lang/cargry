@@ -10,7 +10,7 @@ use std::fmt::{self, Debug};
 
 pub trait LexerManager<T> {
     fn new() -> Self;
-    fn run(&mut self, input: &str);
+    fn run(&mut self, input: &str) -> Result<(), String>;
     fn get_tokens(&self) -> &Vec<String>;
     fn get_rules(&self) -> &Vec<(T, usize)>;
 }

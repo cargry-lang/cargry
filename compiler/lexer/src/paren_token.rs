@@ -19,7 +19,7 @@ pub struct LParen;
 impl LexRule<CargryTokens> for LParen {
     fn lparse(&self, input: &String) -> Result<(String, Vec<String>), String> {
         let f = lstring("(", lign());
-        f(input.as_str())
+        f(input)
     }
 }
 
@@ -28,6 +28,6 @@ pub struct RParen;
 impl LexRule<CargryTokens> for RParen {
     fn lparse(&self, input: &String) -> Result<(String, Vec<String>), String> {
         let f = lstring(")", lign());
-        f(input.as_str())
+        f(input)
     }
 }

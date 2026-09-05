@@ -32,6 +32,6 @@ impl LexRule<CargryTokens> for Number {
                 ),
             )),
         );
-        f(input.as_str())
+        f(input)
     }
 }

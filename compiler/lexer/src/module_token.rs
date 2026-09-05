@@ -17,7 +17,7 @@ pub struct Use;
 impl LexRule<CargryTokens> for Use {
     fn lparse(&self, input: &String) -> Result<(String, Vec<String>), String> {
         let f = lstring("use", lign());
-        f(input.as_str())
+        f(input)
     }
 }
 
@@ -26,6 +26,6 @@ pub struct Mod;
 impl LexRule<CargryTokens> for Mod {
     fn lparse(&self, input: &String) -> Result<(String, Vec<String>), String> {
         let f = lstring("mod", lign());
-        f(input.as_str())
+        f(input)
     }
 }
