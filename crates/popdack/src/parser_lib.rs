@@ -1,53 +1,45 @@
-// /*
-//  * Copyright (c) 2026 Cargry Language
-//  *
-//  * This Source Code Form is subject to the terms of the Mozilla Public
-//  * License, v. 2.0. If a copy of the MPL was not distributed with this
-//  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
-//  */
-// use std::marker::PhantomData;
+/*
+ * Copyright (c) 2026 Cargry Language
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 
-// use lewekk::Lexer;
+use lewekk::Lexer;
 
-// use crate::utils::{ParserMappinger, ParserVariant};
-
-// pub struct Parser<T1: ParserMappinger<T1, T2> + ParserVariant<T1>, T2> {
-//     pmap: PhantomData<T1>,
-//     node: Vec<T2>,
-//     lex: Lexer,
-// }
-// impl<T1, T2> Parser<T1, T2>
-// where
-//     T1: ParserMappinger<T1, T2> + ParserVariant<T1>,
-// {
-//     pub fn new(lex: Lexer) -> Self {
-//         Self {
-//             pmap: PhantomData.clone(),
-//             node: vec![],
-//             lex,
-//         }
-//     }
-
-//     pub fn run(&mut self) -> Result<&Vec<T2>, String> {
-//         let mut tokens = self
-//             .lex
-//             .get_rules()
-//             .iter()
-//             .map(|(x, _)| T1::variant(x))
-//             .collect::<Vec<T1>>();
-//         while tokens.len() > 0 {
-//             let value = tokens.get(0).unwrap();
-//             let res = T1::mapping(value)(&tokens);
-//             match res {
-//                 Ok((new_node, new_tokens)) => {
-//                     self.node.push(new_node);
-//                     tokens = new_tokens;
-//                 }
-//                 Err(e) => {
-//                     Err(e)?;
-//                 }
-//             }
-//         }
-//         Ok(&self.node)
-//     }
-// }
+/// sample:
+/// ```
+/// use lewekk::Lexer;
+/// use lewekk_head::LexRule;
+/// use lewekk_utils::{lign, lstring};
+///
+/// #[lewer(Tokens)]
+/// pub struct A;
+/// impl LexRule<Tokens> for A {
+///     fn lparse(&self, input: &String) -> Result<(String, Vec<String>), String> {
+///         let f = lstring("a", lign());
+///         f(input)
+///     }
+/// }
+///
+/// #[tokens()]
+/// enum Tokens;
+/// enum Nodes {
+///     A(Option<Box<Node>>),
+/// }
+///
+/// let mut l = Lexer::<Tokens>::new(None);
+/// l.add_rule(A);
+/// let p = Parser::<Tokens, Nodes>::new(l);
+/// ```
+pub struct Parser<Tokens, Nodes> {
+    lexer: Lexer<Tokens>,
+    node: Option<Nodes>,
+}
+impl<Tokens, Nodes> Parser<Tokens, Nodes> {
+    pub fn new(lexer: Lexer<Tokens>) -> Self {
+        Self { lexer, node: None }
+    }
+    pub fn run(&mut self) {}
+}

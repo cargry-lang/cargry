@@ -8,7 +8,7 @@
 
 use lewekk::Lexer;
 use lewekk_head::{LexMapping, LexRule, LexerManager};
-use lewekk_macro::lexer_tokens;
+use lewekk_macro::tokens;
 
 use crate::define_token::{Fun, Let, Struct};
 use crate::endline_token::{EndLine, WhiteSpace};
@@ -18,7 +18,7 @@ use crate::number_token::Number;
 use crate::paren_token::{LParen, RParen};
 use crate::scope_token::{LScope, RScope};
 
-#[lexer_tokens(
+#[tokens(
     WhiteSpace, EndLine, Ident, LScope, RScope, LParen, RParen, Number, Use, Mod, Struct, Fun, Let
 )]
 pub enum CargryTokens {}

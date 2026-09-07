@@ -7,11 +7,6 @@
  */
 
 mod parser_lib;
-mod parser_utils;
-
-pub mod utils {
-    pub use crate::parser_utils::*;
-}
 
 pub mod parser {
     pub use crate::parser_lib::*;
