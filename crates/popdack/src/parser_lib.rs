@@ -8,6 +8,8 @@
 
 use lewekk::Lexer;
 
+use crate::parser_utils::{PNode, PStatus};
+
 /// sample:
 /// ```
 /// use lewekk::Lexer;
@@ -23,10 +25,10 @@ use lewekk::Lexer;
 ///     }
 /// }
 ///
-/// #[tokens()]
+/// #[tokens(A)]
 /// enum Tokens;
 /// enum Nodes {
-///     A(Option<Box<Node>>),
+///     A(Option<Box<Nodes>>),
 /// }
 ///
 /// let mut l = Lexer::<Tokens>::new(None);

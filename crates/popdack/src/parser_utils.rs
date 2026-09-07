@@ -6,13 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-mod parser_lib;
-mod parser_utils;
-
-pub mod utils {
-    pub use crate::parser_utils::{PNode, PStatus};
+pub enum PStatus {
+    Continue,
+    End,
 }
 
-pub mod parser {
-    pub use crate::parser_lib::Parser;
+pub trait PNode<Tokens> {
+    fn parse(&self, input: &Vec<Tokens>) -> Result<(PStatus, Vec<Tokens>), String>;
 }
