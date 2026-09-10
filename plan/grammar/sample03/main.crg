@@ -4,13 +4,13 @@ struct A<F>
 where
     F: fun() -> () ! default,
 {
-    pub &drop f: F,
+    pub f: F,
 }
 impl<F> A<F>
 where
     F: fun() -> () ! default,
 {
-    pub fun new(&drop f: F) init {
+    pub inline fun new(&drop f: F) init {
         f,
     }
 }
@@ -19,13 +19,13 @@ struct B<F>
 where
     F: fun() -> (),
 {
-    pub &drop f: F,
+    pub f: F,
 }
 impl<F> B<F>
 where
     F: fun() -> (),
 {
-    pub fun new(&drop f: F) init {
+    pub inline fun new(&drop f: F) init {
         f,
     }
 }
@@ -37,6 +37,6 @@ fun main() {
     let b = B::new(drop || -> () (* error: ! fmt::IO? *) {
         (* error: fmt::println!("good bye.") *)
     });
-    a.f();
-    b.f();
+    (a.f)();
+    (b.f)();
 }

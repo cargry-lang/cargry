@@ -2,13 +2,12 @@ use std::fmt;
 
 use mod(object)::*;
 
-fun main() {
-    let a = Object::from(&1);
+fun main() ! fmt::IO? {
+    let a = Object::from(drop 1);
     let b = a.add(&2);
     let i = 3;
-    let c = a.add!(&i);
-    (* error: in let d = a.add(&4) *)
+    let c = a.add(&i);
 
-    fmt::println!("i = {}", &i);
-    fmt::println!("b = {}, c = {}", &b, &c)
+    fmt::println!("i = {}", &i.to_string());
+    fmt::println!("b = {}, c = {}", &b.to_string(), &c.to_string());
 }

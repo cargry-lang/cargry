@@ -1,11 +1,11 @@
 use std::fmt;
 
 pub struct Object {
-    &drop value: i32,
+    value: i32,
 }
 
 impl Object {
-    pub fun from(&drop value: i32) init {
+    pub inline fun from(&drop value: i32) init {
         value,
     }
 
@@ -14,8 +14,8 @@ impl Object {
     }
 }
 
-impl fmt::Display for Object {
-    pub inline fun fmt(&self, &f: *fmt::Formatter) -> fmt::Formatter {
-        fmt::write(f, "{{ {} }}", &self.value)
+impl fmt::DisplayString for Object {
+    pub inline fun to_string(&self) -> String {
+        "{".to_string() + self.value.to_string() + "}".to_string()
     }
 }
