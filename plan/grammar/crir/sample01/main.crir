@@ -1,0 +1,65 @@
+module = src::main;
+
+info src::main/fact {
+    local out result: ();
+    local in tmp0: std/i32;
+    local in tmp1: std/bool;
+    local in tmp2: std/i32;
+    local in tmp3: std/i32;
+    local in tmp4: std/i32;
+}
+info src::main/main {
+    entrypoint;
+    handle default std::fmt/IO;
+
+    local out result: ();
+    local in tmp0: std/i32;
+    local in i: std/i32;
+    local drop tmp1: std/fmtstr;
+    local in tmp2: std/str;
+    local in tmp3: ();
+}
+
+fun src::main/fact(ref n: std/i32) -> std/i32 {
+    ::bb0[] {
+        tmp0 = 2;
+        tmp1 = std::operator/less<std/i32>(n, ref tmp0);
+        switch(tmp1) -> [true: bb1, false: bb2];
+    }
+    ::bb1[] {
+        result = 1 -> [return: bb5];
+    }
+    ::bb2[] {
+        tmp2 = 1;
+        tmp3 = std::operator/sub<std/i32>(n, ref tmp2) -> [return: bb3];
+    }
+    ::bb3[] {
+        tmp4 = src::main/fact(ref tmp3) -> [return: bb4];
+    }
+    ::bb4[] {
+        result = std::operator/mul<std/i32>(n, ref tmp4) -> [return: bb5];
+    }
+    ::bb5[] {
+        return;
+    }
+}
+
+fun src::main/main() -> () {
+    ::bb0[] {
+        tmp0 = 5;
+        i = src::main/fact(ref tmp0) -> [return: bb1];
+    }
+    ::bb1[] {
+        tmp1 = "{}" -> [return: bb2];
+    }
+    ::bb2[] {
+        tmp2 = std/i32@to_str(ref i) -> [return: bb3];
+    }
+    ::bb3[std::fmt/IO] {
+        tmp3 = effect std::fmt/println(drop tmp1, ref tmp2) -> [return: bb4];
+    }
+    ::bb4[] {
+        result = ();
+        return;
+    }
+}
