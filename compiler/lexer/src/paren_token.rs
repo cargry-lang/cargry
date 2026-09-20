@@ -6,8 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-use std::result;
-
 use lewekk_head::*;
 use lewekk_macro::*;
 use lewekk_utils::*;

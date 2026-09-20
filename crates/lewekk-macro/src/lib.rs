@@ -9,10 +9,9 @@
 use std::clone::Clone;
 
 use proc_macro::TokenStream;
-use quote::{ToTokens, quote};
+use quote::{format_ident, quote};
 use syn::{
-    DeriveInput, Error, Ident, Item, LitBool, Token, parse::Parse, parse_macro_input,
-    punctuated::Punctuated, token::Token,
+    DeriveInput, Error, Ident, Item, Token, parse::Parse, parse_macro_input, punctuated::Punctuated,
 };
 
 #[proc_macro_attribute]
@@ -70,20 +69,24 @@ pub fn tokens(attr: TokenStream, input: TokenStream) -> TokenStream {
 
     let args = parse_macro_input!(attr with Punctuated::<Ident, Token![,]>::parse_terminated);
     let yield_args = args.iter().map(|ident| quote! {#ident,});
-    let impl_args = args.iter().map(|ident| {
+    let variants = args.iter().map(|ident| {
+        let fn_token = ident.to_string().to_lowercase();
+        let fn_ident = format_ident!("token_{}", fn_token, span = ident.span());
         quote! {
-            impl LexMapping<#name> for #ident {
-                fn ltoken(&self) -> #name {
-                    #name::#ident
-                }
+            #[inline]
+            pub fn #fn_ident() -> #name {
+                #name::#ident
             }
         }
     });
 
     let lex_tokens_impl = quote! {
+        #[derive(Clone, Debug, Eq, PartialEq)]
         #vis enum #name {
             #(#yield_args)*
         }
+
+        #(#variants)*
     };
 
     TokenStream::from(lex_tokens_impl)

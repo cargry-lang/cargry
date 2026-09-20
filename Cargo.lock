@@ -3,10 +3,6 @@
 version = 4
 
 [[package]]
-name = "actoa"
-version = "0.1.0"
-
-[[package]]
 name = "aho-corasick"
 version = "1.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -19,15 +15,12 @@ dependencies = [
 name = "cargry"
 version = "0.1.0"
 dependencies = [
- "actoa",
  "cargry-errors",
  "lewekk",
  "lewekk-head",
  "lewekk-macro",
  "lewekk-utils",
  "lexer",
- "parser",
- "popdack",
  "regex",
 ]
 
@@ -51,11 +44,9 @@ dependencies = [
 name = "lewekk"
 version = "0.1.0"
 dependencies = [
- "actoa",
  "lewekk-head",
  "lewekk-macro",
  "lewekk-utils",
- "regex",
 ]
 
 [[package]]
@@ -66,9 +57,8 @@ version = "0.1.0"
 name = "lewekk-macro"
 version = "0.1.0"
 dependencies = [
- "proc-macro2",
  "quote",
- "syn 2.0.118",
+ "syn",
 ]
 
 [[package]]
@@ -92,29 +82,8 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6b947ae49db0d222b1dbc6b113ce7248a3fc3a6ca21b696717bfc000ba4484d8"
 
 [[package]]
-name = "parser"
-version = "0.1.0"
-dependencies = [
- "popdack",
- "popdack-macro",
-]
-
-[[package]]
 name = "popdack"
 version = "0.1.0"
-dependencies = [
- "lewekk",
- "lewekk-head",
-]
-
-[[package]]
-name = "popdack-macro"
-version = "0.1.0"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 3.0.3",
-]
 
 [[package]]
 name = "proc-macro2"
@@ -168,17 +137,6 @@ name = "syn"
 version = "2.0.118"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1b9ae57f904213ebb649ce6895b8a66c66f0203b9319718f69a5612a065b1422"
-dependencies = [
- "proc-macro2",
- "quote",
- "unicode-ident",
-]
-
-[[package]]
-name = "syn"
-version = "3.0.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "53e9bae58849f64dfa4f5d5ae372c8341f7305f82a3868709269343628b659a3"
 dependencies = [
  "proc-macro2",
  "quote",

@@ -31,14 +31,7 @@ impl LexRule<CargryTokens> for WhiteSpace {
 pub struct EndLine;
 impl LexRule<CargryTokens> for EndLine {
     fn lparse(&self, input: &String) -> Result<(String, Vec<String>), String> {
-        let white_space = lreduce(
-            |s1, s2| s1 + s2,
-            lfmany0(lor(
-                lstring(" ", lign()),
-                lor(lstring("\n", lign()), lstring("\t", lign())),
-            )),
-        );
-        let f = land(white_space.clone(), land(lstring(";", lign()), white_space));
+        let f = lstring(";", lign());
         f(input)
     }
 }

@@ -7,7 +7,7 @@
  */
 
 use lewekk::Lexer;
-use lewekk_head::{LexMapping, LexRule, LexerManager};
+use lewekk_head::LexerManager;
 use lewekk_macro::tokens;
 
 use crate::define_token::{Fun, Let, Struct};
@@ -15,18 +15,19 @@ use crate::endline_token::{EndLine, WhiteSpace};
 use crate::ident_token::Ident;
 use crate::module_token::{Mod, Use};
 use crate::number_token::Number;
+use crate::operator_token::EqOp;
 use crate::paren_token::{LParen, RParen};
 use crate::scope_token::{LScope, RScope};
 
 #[tokens(
-    WhiteSpace, EndLine, Ident, LScope, RScope, LParen, RParen, Number, Use, Mod, Struct, Fun, Let
+    WhiteSpace, EndLine, Ident, LScope, RScope, LParen, RParen, Number, Use, Mod, Struct, Fun, Let,
+    EqOp
 )]
 pub enum CargryTokens {}
 
 pub struct CargryLexer {
     lexer: Lexer<CargryTokens>,
 }
-
 impl LexerManager<CargryTokens> for CargryLexer {
     fn new() -> Self {
         let mut lex = Lexer::new(Some(WhiteSpace));
@@ -40,6 +41,9 @@ impl LexerManager<CargryTokens> for CargryLexer {
         lex.add_rule(Let);
         lex.add_rule(Number);
         lex.add_rule(Ident);
+        lex.add_rule(Fun);
+        lex.add_rule(Struct);
+        lex.add_rule(EqOp);
         Self { lexer: lex }
     }
 

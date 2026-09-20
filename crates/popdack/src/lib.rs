@@ -6,13 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-mod parser_lib;
-mod parser_utils;
+mod node;
+mod utils;
 
-pub mod utils {
-    pub use crate::parser_utils::{PNode, PStatus};
-}
-
-pub mod parser {
-    pub use crate::parser_lib::Parser;
-}
+pub use node::BRSNode;
+pub use utils::PdkParser;

@@ -13,13 +13,10 @@ use lewekk_utils::*;
 use crate::lexer::CargryTokens;
 
 #[lexer(CargryTokens)]
-pub struct Ident;
-impl LexRule<CargryTokens> for Ident {
+pub struct EqOp;
+impl LexRule<CargryTokens> for EqOp {
     fn lparse(&self, input: &String) -> Result<(String, Vec<String>), String> {
-        let f = lreduce(
-            |s1, s2| s1 + s2,
-            lfmany1(lpredicate(|c| c.is_alphabetic(), lign())),
-        );
+        let f = lstring("=", lign());
         f(input)
     }
 }
