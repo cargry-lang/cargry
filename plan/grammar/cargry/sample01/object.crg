@@ -9,7 +9,7 @@ impl Object {
         value,
     }
 
-    pub fun add(&self: *, &i: i32) -> Self {
+    pub fun add(&self, &i: i32) -> Self {
         Self::from(self.value + i)
     }
 }

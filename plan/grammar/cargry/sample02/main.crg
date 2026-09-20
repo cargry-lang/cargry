@@ -9,7 +9,7 @@ fun main() ! fmt::IO? + NumWrite? + VecWrite? {
     }
     let result = 0u32;
     for item in v.iter() {
-        result += &item;
+        result += item;
     }
-    fmt::println!("{}", &result)    (* result = input * (input + 1) / 2 *)
+    fmt::println!("{}", result.to_string())    (* result = input * (input + 1) / 2 *)
 }

@@ -4,10 +4,10 @@ use mod(object)::*;
 
 fun main() ! fmt::IO? {
     let a = Object::from(drop 1);
-    let b = a.add(&2);
+    let b = a.add(2);
     let i = 3;
-    let c = a.add(&i);
+    let c = a.add(i);
 
-    fmt::println!("i = {}", &i.to_string());
-    fmt::println!("b = {}, c = {}", &b.to_string(), &c.to_string());
+    fmt::println!("i = {}", i.to_string());
+    fmt::println!("b = {}, c = {}", b.to_string(), c.to_string());
 }
