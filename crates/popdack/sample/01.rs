@@ -1,7 +1,7 @@
 use lewekk::Lexer;
 use lewekk_head::{LexRule, LexerManager};
-use lewekk_utils::{lstring, lign};
 use lewekk_macro::{lexer, tokens};
+use lewekk_utils::{lign, lstring};
 
 #[lexer(Token)]
 struct A;
@@ -42,6 +42,8 @@ enum Node {
     A(Option<RefN>),
 }
 
-fn tokenize()
-
-fn parse(tokens: &Vec<Tokens>)
+fn tokenize(input: &str) -> MyLexer {
+    let mut lex = MyLexer::new();
+    let _ = lex.run(input);
+    lex
+}

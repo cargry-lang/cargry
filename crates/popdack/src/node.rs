@@ -9,10 +9,6 @@
 /// Reference to node
 pub struct RefN(usize);
 
-enum Node {
-    A(Option<RefN>),
-}
-
 /// BRSNode (Bordered Reference Series Node)
 ///
 /// Recomend using 'lewekk' crate.
