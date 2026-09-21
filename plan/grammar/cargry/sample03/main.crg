@@ -1,4 +1,4 @@
-use std::fmt;
+use std::fmt::{IO, println};
 
 struct A<F>
 where
@@ -31,11 +31,11 @@ where
 }
 
 fun main() {
-    let a = A::new(drop || -> () ! fmt::IO? {
-        fmt::println!("hello.")
+    let a = A::new(drop || -> () ! IO? {
+        println!("hello.")
     });
-    let b = B::new(drop || -> () (* error: ! fmt::IO? *) {
-        (* error: fmt::println!("good bye.") *)
+    let b = B::new(drop || -> () (* error: ! IO? *) {
+        (* error: println!("good bye.") *)
     });
     (a.f)();
     (b.f)();
