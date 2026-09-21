@@ -6,4 +6,17 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+use popdack_macro::token_eater;
+
+use lexer::lexer::CargryTokens;
+use popdack::pinit;
+
+#[token_eater]
+fn g() {}
+
+#[token_eater]
+fn f() {
+    <g>
+}
+
 fn main() {}

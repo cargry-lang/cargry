@@ -10,4 +10,4 @@ mod node;
 mod utils;
 
 pub use node::BRSNode;
-pub use utils::PdkParser;
+pub use utils::{PdkParser, pinit};

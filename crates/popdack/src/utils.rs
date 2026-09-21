@@ -6,15 +6,33 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-enum PType<'a, Tokens> {
+enum PType<'a, Tokens, F>
+where
+    F: Fn() -> PdkParser<'a, Tokens, F>,
+{
     Eat(Tokens),
-    Call(&'a PdkParser<'a, Tokens>),
+    Opt(&'a PdkParser<'a, Tokens, F>),
+    Call(&'a PdkParser<'a, Tokens, F>),
+    CallFun(F),
 }
 
-pub struct PdkParser<'a, Tokens> {
-    queue: Vec<PType<'a, Tokens>>,
+pub fn pinit<'a, Tokens, F>() -> PdkParser<'a, Tokens, F>
+where
+    F: Fn() -> PdkParser<'a, Tokens, F>,
+{
+    PdkParser::new()
 }
-impl<'a, Tokens> PdkParser<'a, Tokens> {
+
+pub struct PdkParser<'a, Tokens, F>
+where
+    F: Fn() -> PdkParser<'a, Tokens, F>,
+{
+    queue: Vec<PType<'a, Tokens, F>>,
+}
+impl<'a, Tokens, F> PdkParser<'a, Tokens, F>
+where
+    F: Fn() -> PdkParser<'a, Tokens, F>,
+{
     pub fn new() -> Self {
         Self { queue: vec![] }
     }
@@ -24,8 +42,18 @@ impl<'a, Tokens> PdkParser<'a, Tokens> {
         self
     }
 
-    pub fn call(mut self, pdk_parser: &'a PdkParser<'a, Tokens>) -> Self {
+    pub fn opt(mut self, pdk_parser: &'a PdkParser<'a, Tokens, F>) -> Self {
+        self.queue.push(PType::Opt(pdk_parser));
+        self
+    }
+
+    pub fn call(mut self, pdk_parser: &'a PdkParser<'a, Tokens, F>) -> Self {
         self.queue.push(PType::Call(pdk_parser));
+        self
+    }
+
+    pub fn call_f(mut self, f: F) -> Self {
+        self.queue.push(PType::CallFun(f));
         self
     }
 }
