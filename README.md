@@ -1,3 +1,5 @@
+this project was moved to [Codeberg](https://codeberg.org/cargry-lang/cargry)
+
 # License
 
 Copyright (c) 2026 Cargry Language
